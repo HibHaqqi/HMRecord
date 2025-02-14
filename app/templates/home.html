@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome to HMRecord</h1>
+<p>This is the home page.</p>
+<a href="{{ url_for('auth.register') }}" class="btn btn-primary">Register</a>
+{% endblock %}
