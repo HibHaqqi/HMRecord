@@ -51,7 +51,7 @@ def login():
         user = UserService.authenticate_user(email, password)
         if user:
             flash('Login successful!', 'success')
-            return redirect(url_for('main.index'))  # Redirect to main page after login
+            return redirect(url_for('auth.home'))  # Redirect to main page after login
         else:
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('auth.login'))

@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HMRecord</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Heavy Equipment Record</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        {% block content %}{% endblock %}
+<body class="bg-gray-100">
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-white text-lg font-bold">Your Logo</div>
+            <div class="space-x-4">
+                <a href="/" class="text-white hover:bg-green-600 px-3 py-2 rounded">Home</a>
+                <a href="/about" class="text-white hover:bg-green-600 px-3 py-2 rounded">About</a>
+                <a href="/login" class="text-white hover:bg-green-600 px-3 py-2 rounded">Login</a>
+                <a href="/register" class="text-white hover:bg-green-600 px-3 py-2 rounded">Register</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container mx-auto mt-8">
+        {% block content %}
+
+        {% endblock %}
     </div>
 </body>
 </html>
