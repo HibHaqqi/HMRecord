@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template , request , flash, url_for, redirect
+from flask import Blueprint, render_template , request , flash, url_for, redirect,session
 from app.services.user_service import UserService
 import re
+from app.controller.equipment_controller import eqp_bp
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -50,8 +51,10 @@ def login():
         # Validate user credentials
         user = UserService.authenticate_user(email, password)
         if user:
+            session['user_id'] = user.id
+            session.permanent = True
             flash('Login successful!', 'success')
-            return redirect(url_for('auth.home'))  # Redirect to main page after login
+            return redirect(url_for('eqp.upload'))  # Redirect to main page after login
         else:
             flash('Invalid email or password.', 'danger')
             return redirect(url_for('auth.login'))

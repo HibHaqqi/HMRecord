@@ -17,6 +17,9 @@ def create_app():
     from app.controller.auth_controller import auth_bp
     app.register_blueprint(auth_bp)
 
+    from app.controller.equipment_controller import eqp_bp
+    app.register_blueprint(eqp_bp)
+
     with app.app_context():
         db.create_all()
     return app
