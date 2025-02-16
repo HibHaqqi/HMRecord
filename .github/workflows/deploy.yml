@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4.1.1
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -21,15 +21,12 @@ jobs:
     - name: Install dependencies
       run: |
         cd ~/HMRecord
-        git pull origin main
-        git status
-        source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
    
     - name: Restart Gunicorn
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
@@ -37,5 +34,7 @@ jobs:
         script: |
           cd ~/HMRecord
           source venv/bin/activate
+          git pull origin main
+          git status
           pkill gunicorn
           gunicorn -c gunicorn_config.py app:app
