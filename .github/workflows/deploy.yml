@@ -20,6 +20,10 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd ~/HMRecord
+        git pull origin main
+        git status
+        source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
@@ -32,8 +36,6 @@ jobs:
         key: ${{ secrets.KEY }}
         script: |
           cd ~/HMRecord
-          git pull origin main
-          git status
           source venv/bin/activate
           pkill gunicorn
           gunicorn -c gunicorn_config.py app:app
