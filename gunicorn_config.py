@@ -1,10 +1,12 @@
+# gunicorn_config.py
+
 workers = 3
 bind = "0.0.0.0:8000"
 timeout = 120
-accesslog = "/var/log/gunicorn/access.log"
-errorlog = "/var/log/gunicorn/error.log"
+accesslog = "/home/hibhaqqi/gunicorn/logs/access.log"
+errorlog = "/home/hibhaqqi/gunicorn/logs/error.log"
 loglevel = "info"
 daemon = False
 user = "hibhaqqi"
 group = "hibhaqqi"
-pidfile = "/var/run/gunicorn.pid"
+pidfile = "/home/hibhaqqi/gunicorn/pid/gunicorn.pid"
