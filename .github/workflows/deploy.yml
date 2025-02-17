@@ -33,4 +33,4 @@ jobs:
           git pull origin main
           git status
           pkill gunicorn
-          gunicorn -c gunicorn_config.py app:run
+          gunicorn -c gunicorn_config.py run:app
