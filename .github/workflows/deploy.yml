@@ -32,5 +32,5 @@ jobs:
           pip install -r requirements.txt
           git pull origin main
           git status
-          pkill gunicorn
-          gunicorn -c gunicorn_config.py run:app
+          sudo systemctl daemon-reload
+          sudo systemctl restart hmeqp.service
