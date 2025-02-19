@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hour Meter Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            background-color: white;
+        }
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Hour Meter Details for Unit Code: {{ unit_code }} on {{ date }}</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Unit Code</th>
+                            <th>HM Start</th>
+                            <th>HM Stop</th>
+                            <th>HM</th>
+                            <th>Contractor</th>
+                            <th>Opex/Capex</th>
+                            <th>Cost Category</th>
+                            <th>Cost Activity</th>
+                            <th>Location</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in details %}
+                            <tr>
+                                <td>{{ item.date }}</td>
+                                <td>{{ item.unit_code }}</td>
+                                <td>{{ item.hm_start }}</td>
+                                <td>{{ item.hm_stop }}</td>
+                                <td>{{ item.hm }}</td>
+                                <td>{{ item.contractor }}</td>
+                                <td>{{ item.opex_capex }}</td>
+                                <td>{{ item.cost_category }}</td>
+                                <td>{{ item.cost_activity }}</td>
+                                <td>{{ item.location }}</td>
+                                <td>{{ item.notes }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11">No data available.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ url_for('eqp.upload') }}" class="btn btn-secondary">Back to Upload</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

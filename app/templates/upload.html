@@ -86,10 +86,12 @@
                   <tbody>
                       {% for item in over_22_hours %}
                           <tr>
-                              <td>{{ item.date }}</td>
-                              <td>{{ item.unit_code }}</td>
-                              <td>{{ item.total_hm }}</td>
-                              
+                            <td>{{ item.date}}</td>
+                            <td>{{ item.unit_code }}</td>
+                            <td>{{ item.total_hm }}</td>
+                            <td>
+                                <a href="{{ url_for('val.hour_meter_details', unit_code=item.unit_code, date=item.date) }}" class="btn btn-info">Detail</a>
+                            </td>
                           </tr>
                       {% else %}
                           <tr>
@@ -122,6 +124,9 @@
                             <td>{{ item.date }}</td>
                             <td>{{ item.unit_code }}</td>
                             <td>{{ item.total_hm }}</td>
+                            <td>
+                              <a href="{{ url_for('val.total_hour_meter_details', unit_code=item.unit_code, date=item.date)  }}" class="btn btn-primary btn-sm">Detail</a>
+                          </td>
                            
                         </tr>
                     {% else %}
