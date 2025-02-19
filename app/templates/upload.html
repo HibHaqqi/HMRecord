@@ -1,25 +1,142 @@
-<!-- app/templates/upload.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Hour Meter Data</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            background-color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .list-group-item {
+            background-color: #f8f9fa;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Hour Meter Data</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Upload Hour Meter Data</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('eqp.upload') }}" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file">Upload Excel File:</label>
+                        <input type="file" class="form-control-file" id="file" name="file" accept=".xlsx, .xls">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-info mt-3" role="alert">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+              <h3>Equipment with Hour Meters Over 22 Hours</h3>
+          </div>
+          <div class="card-body">
+              <table class="table table-bordered">
+                  <thead>
+                      <tr>
+                          <th>Date</th>
+                          <th>Unit Code</th>
+                          <th>Hour Meter</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for item in over_22_hours %}
+                          <tr>
+                              <td>{{ item.date }}</td>
+                              <td>{{ item.unit_code }}</td>
+                              <td>{{ item.total_hm }}</td>
+                              
+                          </tr>
+                      {% else %}
+                          <tr>
+                              <td colspan="4" class="text-center">No equipment with hour meters over 22 hours.</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header">
+            <h3>Total Hour Meter for Each Unique Unit Code</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Unit Code</th>
+                        <th>Total HM</th>
+                        <th>Action</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in total_hm_by_unit_code %}
+                        <tr>
+                            <td>{{ item.date }}</td>
+                            <td>{{ item.unit_code }}</td>
+                            <td>{{ item.total_hm }}</td>
+                           
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No data available.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

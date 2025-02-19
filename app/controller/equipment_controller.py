@@ -3,6 +3,8 @@ from app.services.equipment_service import upload_hour_meter_data
 import os
 from werkzeug.utils import secure_filename
 
+from app.services.validate_service import DataValidate
+
 eqp_bp = Blueprint('eqp', __name__)
 
 
@@ -14,6 +16,9 @@ def upload():
 
     user_id = session.get('user_id')
     current_app.logger.info(f"Session active with user_id={user_id}")
+
+    over_22_hours = []
+    total_hm_by_unit_code = []
 
     if request.method == 'POST':
         file = request.files.get('file')
@@ -33,7 +38,10 @@ def upload():
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
-
+        over_22_hours = DataValidate.get_daily_hour_meters_over_22_hours()
+        total_hm_by_unit_code = DataValidate.get_total_hour_meters_by_unit_code()
         return redirect(url_for('eqp.upload'))
 
-    return render_template('upload.html')
+    over_22_hours = DataValidate.get_daily_hour_meters_over_22_hours()
+    total_hm_by_unit_code = DataValidate.get_total_hour_meters_by_unit_code()
+    return render_template('upload.html',over_22_hours=over_22_hours, total_hm_by_unit_code=total_hm_by_unit_code)
