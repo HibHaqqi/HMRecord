@@ -60,3 +60,9 @@ def login():
             return redirect(url_for('auth.login'))
 
     return render_template('login.html')
+@auth_bp.route('/logout')
+def logout():
+    # Clear the user session
+    session.clear()
+    flash('You have been logged out successfully.', 'info')
+    return redirect(url_for('auth.login')) 
