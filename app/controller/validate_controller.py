@@ -35,6 +35,7 @@ def edit_hour_meter(id):
 
     if request.method == 'POST':
         # Get data from the form
+        unit_code = request.form.get('unit_code')
         hm_start = request.form.get('hm_start')
         hm_stop = request.form.get('hm_stop')
         hm = request.form.get('hm')
@@ -46,7 +47,7 @@ def edit_hour_meter(id):
 
         try:
             # Call the edit service
-            message = DataValidate.edit_hour_meter_record(id, hm_start, hm_stop, hm, opex_capex, cost_category, cost_activity, location, notes)
+            message = DataValidate.edit_hour_meter_record(id, unit_code,hm_start, hm_stop, hm, opex_capex, cost_category, cost_activity, location, notes)
             flash(message)
             return redirect(url_for('eqp.upload'))  # Redirect to a relevant route after editing
         except Exception as e:

@@ -75,7 +75,7 @@ class DataValidate :
     } for record in result]
 
      return details
-   def edit_hour_meter_record(id, hm_start, hm_stop, hm, opex_capex, cost_category, cost_activity, location, notes):
+   def edit_hour_meter_record(id, unit_code, hm_start, hm_stop, hm, opex_capex, cost_category, cost_activity, location, notes):
       # Fetch the record by ID
     record = Equipment.query.get(id)
     
@@ -83,6 +83,7 @@ class DataValidate :
         raise ValueError("Record not found.")
 
     # Update the record fields
+    record.unit_code = unit_code
     record.hm_start = hm_start
     record.hm_stop = hm_stop
     record.hm = hm
