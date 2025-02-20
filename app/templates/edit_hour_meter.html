@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hour Meter Record</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Hour Meter Record</h2>
+        <form action="{{ url_for('val.edit_hour_meter', id=record.id) }}" method="POST">
+            <div class="form-group">
+                <label for="hm_start">HM Start:</label>
+                <input type="number" step="any" class="form-control" id="hm_start" name="hm_start" value="{{ record.hm_start }}" required>
+            </div>
+            <div class="form-group">
+                <label for="hm_stop">HM Stop:</label>
+                <input type="number" step="any" class="form-control" id="hm_stop" name="hm_stop" value="{{ record.hm_stop }}" required>
+            </div>
+            <div class="form-group">
+                <label for="hm">HM:</label>
+                <input type="number" step="any" class="form-control" id="hm" name="hm" value="{{ record.hm }}" required>
+            </div>
+            <div class="form-group">
+                <label for="opex_capex">Opex/Capex:</label>
+                <input type="text" class="form-control" id="opex_capex" name="opex_capex" value="{{ record.opex_capex }}" required>
+            </div>
+            <div class="form-group">
+                <label for="cost_category">Cost Category:</label>
+                <input type="text" class="form-control" id="cost_category" name="cost_category" value="{{ record.cost_category }}" required>
+            </div>
+            <div class="form-group">
+                <label for="cost_activity">Cost Activity:</label>
+                <input type="text" class="form-control" id="cost_activity" name="cost_activity" value="{{ record.cost_activity }}" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" name="location" value="{{ record.location }}" required>
+            </div>
+            <div class="form-group">
+                <label for="notes">Notes:</label>
+                <textarea class="form-control" id="notes" name="notes">{{ record.notes }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Record</button>
+            <a href="{{ url_for('eqp.upload') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>
+

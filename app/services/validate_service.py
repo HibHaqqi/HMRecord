@@ -38,6 +38,7 @@ class DataValidate :
     ).all()
 
     details = [{
+        'id':record.id,
         'date': record.date.strftime('%d/%m/%y'),
         'unit_code': record.unit_code,
         'hm_start': record.hm_start,
@@ -59,6 +60,7 @@ class DataValidate :
     ).all()
 
      details = [{
+        'id':record.id,
         'date': record.date.strftime('%d/%m/%y'),
         'unit_code': record.unit_code,
         'hm_start': record.hm_start,
@@ -73,6 +75,26 @@ class DataValidate :
     } for record in result]
 
      return details
+   def edit_hour_meter_record(id, hm_start, hm_stop, hm, opex_capex, cost_category, cost_activity, location, notes):
+      # Fetch the record by ID
+    record = Equipment.query.get(id)
+    
+    if not record:
+        raise ValueError("Record not found.")
+
+    # Update the record fields
+    record.hm_start = hm_start
+    record.hm_stop = hm_stop
+    record.hm = hm
+    record.opex_capex = opex_capex
+    record.cost_category = cost_category
+    record.cost_activity = cost_activity
+    record.location = location
+    record.notes = notes
+
+    # Commit the changes to the database
+    db.session.commit()
+    return "Record updated successfully."
     
 
     
