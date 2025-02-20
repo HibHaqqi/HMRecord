@@ -133,8 +133,14 @@
         <div class="card-header">
             <h3>Total Hour Meter for Each Unique Unit Code</h3>
         </div>
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" class="form-control">
+        </div>
+        <button id="filter-button" class="btn btn-primary">Filter</button>
+        
         <div class="card-body">
-            <table class="table table-striped">
+            <table class="table table-striped mt-3 " id="hour-meter-table">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -169,5 +175,40 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#filter-button').click(function() {
+            var selectedDate = $('#date').val();
+
+            $.ajax({
+                url: "/total-hour-meters",  // Adjust the URL to your route
+                type: "GET",
+                data: {
+                    date: selectedDate
+                },
+                success: function(response) {
+                    // Clear the existing table body
+                    $('#hour-meter-table tbody').empty();
+
+                    // Populate the table with the new data
+                    response.forEach(function(item) {
+                        $('#hour-meter-table tbody').append(
+                            '<tr>' +
+                            '<td>' + item.date + '</td>' +
+                            '<td>' + item.unit_code + '</td>' +
+                            '<td>' + item.total_hm + '</td>' +
+                            '<td><a href="/total-hour-meter-details/' + item.unit_code + '" class="btn btn-primary btn-sm">Detail</a></td>' +
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Error: " + status + error);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

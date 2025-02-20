@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, redirect,request,flash,url_for
+from flask import Blueprint, render_template, redirect,request,flash,url_for, jsonify
 from app.services.validate_service import DataValidate
 import pandas as pd
+from sqlalchemy import func
+
 from app.models.equipment import Equipment,db
 val_bp = Blueprint('val', __name__)
 
@@ -10,7 +12,32 @@ def validate_hour_meters():
 
 @val_bp.route('/total-hour-meters', methods=['GET'])
 def total_hour_meters():
-    return DataValidate.get_total_hour_meters_by_unit_code()
+   date = request.args.get('date') 
+   query = db.session.query(
+        Equipment.date,
+        Equipment.unit_code,
+        func.sum(Equipment.hm).label('total_hm')
+    ).group_by(Equipment.date, Equipment.unit_code)
+
+    # Filter by date if provided
+   if date:
+        query = query.filter(Equipment.date == date)
+
+    # Sort by date
+   query = query.order_by(Equipment.date)
+
+    # Execute the query
+   result = query.all()
+
+    # Prepare the response
+   total_hm_by_unit_code = [
+        {
+            'date': row.date.strftime('%d/%m/%y'),  # Format date as needed
+            'unit_code': row.unit_code,
+            'total_hm': row.total_hm
+        } for row in result
+    ]
+   return jsonify(total_hm_by_unit_code)
 
 @val_bp.route('/hour-meter-details/<unit_code>/<date>', methods=['GET'])
 def hour_meter_details(unit_code, date):
