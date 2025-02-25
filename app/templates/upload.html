@@ -198,7 +198,7 @@
                             '<td>' + item.date + '</td>' +
                             '<td>' + item.unit_code + '</td>' +
                             '<td>' + item.total_hm + '</td>' +
-                            '<td><a href="/total-hour-meter-details/' + item.unit_code + '" class="btn btn-primary btn-sm">Detail</a></td>' +
+                            '<td><a href="/total-hour-meter-details/' + encodeURIComponent(item.unit_code) + '/'  + formatDate(item.date) + '" class="btn btn-primary btn-sm detail-link">Detail</a></td>' +
                             '</tr>'
                         );
                     });
@@ -208,6 +208,13 @@
                 }
             });
         });
+        function formatDate(dateString){
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() +1 ).padStart(2,'0');
+            const day = String(date.getDate()).padStart(2,'0');
+            return `${year}-${month}-${day}`;
+        }
     });
 </script>
 </body>
