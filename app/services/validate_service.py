@@ -96,6 +96,9 @@ class DataValidate :
     # Commit the changes to the database
     db.session.commit()
     return "Record updated successfully."
+   def fuelupload(file):
+   
+
     
 
     
