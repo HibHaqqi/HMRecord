@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session, current_app,send_from_directory
 from app.services.equipment_service import upload_hour_meter_data
+from app.models.user import User
 import os
 from werkzeug.utils import secure_filename
 
@@ -17,8 +18,11 @@ def upload():
         return redirect(url_for('auth.login'))
 
     user_id = session.get('user_id')
-    current_app.logger.info(f"Session active with user_id={user_id}")
+    user = User.query.get(user_id)
+    current_app.logger.info(f"Session active with user_id={user_id}, role={user.role}")
 
+    
+    
     over_22_hours = []
     total_hm_by_unit_code = []
 
@@ -40,12 +44,12 @@ def upload():
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
-        over_22_hours = DataValidate.get_daily_hour_meters_over_22_hours()
-        total_hm_by_unit_code = DataValidate.get_total_hour_meters_by_unit_code()
+        over_22_hours = DataValidate.get_daily_hour_meters_over_22_hours(user)
+        total_hm_by_unit_code = DataValidate.get_total_hour_meters_by_unit_code(user)
         return redirect(url_for('eqp.upload'))
 
-    over_22_hours = DataValidate.get_daily_hour_meters_over_22_hours()
-    total_hm_by_unit_code = DataValidate.get_total_hour_meters_by_unit_code()
+    over_22_hours = DataValidate.get_daily_hour_meters_over_22_hours(user)
+    total_hm_by_unit_code = DataValidate.get_total_hour_meters_by_unit_code(user)
     return render_template('upload.html',over_22_hours=over_22_hours, total_hm_by_unit_code=total_hm_by_unit_code)
 @eqp_bp.route('/uploads/<path:filename>', methods=['GET'])
 def download_file(filename):
