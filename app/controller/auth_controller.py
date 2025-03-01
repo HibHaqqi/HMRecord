@@ -15,6 +15,7 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
+        role =request.form['role']
 
           # Validation checks
         if not username or not email or not password:
@@ -37,7 +38,7 @@ def register():
             return redirect(url_for('auth.register'))
 
          # Call the service to register the user
-        UserService.register_user(username, email, password)
+        UserService.register_user(username, email, password,role)
         flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('auth.login'))  # Redirect to login page after registration
     return render_template('register.html')

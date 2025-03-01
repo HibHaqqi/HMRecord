@@ -6,9 +6,9 @@ class UserService:
     def user_exists(username, email):
         return db.session.query(User).filter((User.username == username) | (User.email == email)).first() is not None
 
-    def register_user(username, email, password):
+    def register_user(username, email, password,role):
         hashed_password = generate_password_hash(password)
-        new_user = User(username=username, email=email, password=hashed_password)
+        new_user = User(username=username, email=email, password=hashed_password,role=role)
         db.session.add(new_user)
         db.session.commit()
         return new_user

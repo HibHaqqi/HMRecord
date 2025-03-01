@@ -4,14 +4,22 @@ from flask import jsonify
 import pandas as pd
 
 class DataValidate :
-   def get_daily_hour_meters_over_22_hours():
-    # Query to get the total hour meter for each unique unit code grouped by date
-    result = db.session.query(
+   def get_daily_hour_meters_over_22_hours(user):
+    if user.role == 'owner':
+      result = db.session.query(
         Equipment.date,
         Equipment.unit_code,
         func.sum(Equipment.hm).label('total_hm')
-    ).group_by(Equipment.date, Equipment.unit_code).having(func.sum(Equipment.hm) > 22).all()
+    ).group_by(Equipment.date, Equipment.unit_code).having(func.sum(Equipment.hm) > 22).all()     
+    else:
+      result = db.session.query(
+        Equipment.date,
+        Equipment.unit_code,
+        func.sum(Equipment.hm).label('total_hm')
+    ).filter(Equipment.contractor == user.role).group_by(Equipment.date, Equipment.unit_code).having(func.sum(Equipment.hm) > 22).all()     
 
+    # Query to get the total hour meter for each unique unit code grouped by date
+    
     # Convert the result to a list of dictionaries
     over_22_hours = [
         {
@@ -23,12 +31,19 @@ class DataValidate :
 
     return over_22_hours
    
-   def get_total_hour_meters_by_unit_code():
-    result = db.session.query(
-        Equipment.date,Equipment.unit_code,
-        func.sum(Equipment.hm).label('total_hm')
-    ).group_by(Equipment.date,Equipment.unit_code).all()
-
+   def get_total_hour_meters_by_unit_code(user):
+    if user.role == 'owner':
+        result = db.session.query(
+                Equipment.date,
+                Equipment.unit_code,
+                func.sum(Equipment.hm).label('total_hm')
+            ).group_by(Equipment.date, Equipment.unit_code).all()
+    else:
+      result = db.session.query(
+            Equipment.date,Equipment.unit_code,
+            func.sum(Equipment.hm).label('total_hm')
+        ).filter(Equipment.contractor == user.role).group_by(Equipment.date,Equipment.unit_code).all()
+      
     total_hm_by_unit_code = [{'date':row.date,'unit_code': row.unit_code, 'total_hm': row.total_hm} for row in result]
     return total_hm_by_unit_code
    def get_hour_meter_details(unit_code, date):
