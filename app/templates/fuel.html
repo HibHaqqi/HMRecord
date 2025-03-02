@@ -1,0 +1,111 @@
+<!-- app/templates/upload_fuel.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Fuel Data</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+       body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .card-body {
+            background-color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .list-group-item {
+            background-color: #f8f9fa;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+        
+        .navbar-custom {
+            background-color: #007bff;
+        }
+        .navbar-custom .navbar-brand, .navbar-custom .nav-link {
+            color: white;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #d1ecf1;
+        }
+    </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand">Your Logo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('eqp.upload') }}">HMrecord</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('fuel.upload') }}">Fuel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <div class="container">
+      <div class="card-header">
+        <h2>Upload Fuel Issued Data</h2>
+    </div>
+      <div class="card-body">
+         <form method="post" enctype="multipart/form-data" action="{{ url_for('fuel.upload') }}">
+            <div class="form-group">
+                <label for="file">Select Excel File:</label>
+                <input type="file" class="form-control-file" name="file" id="file" accept=".xlsx, .xls" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <h5>Download Example File</h5>
+                <p>If you need an example of the required format, you can download it here:</p>
+                <a href="fuel/fuel.xlsx" class="btn btn-success">Download</a>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    </div>
+</body>
+</html>

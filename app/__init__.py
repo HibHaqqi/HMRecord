@@ -21,6 +21,8 @@ def create_app():
     app.register_blueprint(eqp_bp)
     from app.controller.validate_controller import val_bp
     app.register_blueprint(val_bp)
+    from app.controller.fuel_controller import fuel_bp
+    app.register_blueprint(fuel_bp)
 
     with app.app_context():
         db.create_all()
